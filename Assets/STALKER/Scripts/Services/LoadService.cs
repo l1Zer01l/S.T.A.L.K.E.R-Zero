@@ -8,7 +8,8 @@ namespace StalkerZero.Services
 {
     public class LoadService
     {
-        public const string PREFAB_UIROOT = "UI/UIRoot";
+        public const string PREFAB_UI_ROOT = "UI/UIRoot";
+        public const string PREFAB_UI_MAIN_MENU = "UI/UIMainMenu";
         public LoadService()
         {
 

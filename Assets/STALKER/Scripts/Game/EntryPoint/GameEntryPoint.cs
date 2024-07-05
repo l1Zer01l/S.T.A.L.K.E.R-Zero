@@ -29,10 +29,10 @@ namespace StalkerZero
 
             var loadService = m_rootContainer.Resolve<LoadService>();
 
-            var m_uIRootViewPrefab = loadService.LoadPrefab<UIRootView>(LoadService.PREFAB_UIROOT);
+            var m_uIRootViewPrefab = loadService.LoadPrefab<UIRootView>(LoadService.PREFAB_UI_ROOT);
             m_uIRootView = Object.Instantiate(m_uIRootViewPrefab);
             Object.DontDestroyOnLoad(m_uIRootView.gameObject);
-
+            m_rootContainer.RegisterInstance(m_uIRootView);
         }
 
         public void Init()
