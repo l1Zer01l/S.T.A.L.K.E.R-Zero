@@ -5,7 +5,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace StalkerZero.Infrastructure
+namespace StalkerZero.Infrastructure.Reactive
 {
     public class ReactiveProperty<T> : IReactiveProperty<T>
     {  
@@ -33,9 +33,9 @@ namespace StalkerZero.Infrastructure
             if (!m_observers.Contains(observer))
             {
                 m_observers.Add(observer);
+                return new ReactiveSubscription<T>(this, observer);
             }
-
-            return new ReactiveSubscription<T>(this, observer);
+            return null;
         }
 
         public void Unsubscribe(IObserver<T> observer)

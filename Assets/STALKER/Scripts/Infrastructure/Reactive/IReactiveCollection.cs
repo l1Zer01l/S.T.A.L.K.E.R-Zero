@@ -2,10 +2,15 @@
    Copyright SkyForge Corporation. All Rights Reserved.
 \**************************************************************************/
 
+using System.Collections.Generic;
+
 namespace StalkerZero.Infrastructure.Reactive
 {
-    public interface IReactiveProperty<out T> : IObservable<T>
+    public interface IReactiveCollection<T> : IObservableCollection<T>, ICollection<T>
     {
-        T Value { get; }  
+        void Add(object sender, T item);
+        void Clear(object sender);
+        bool Remove(object sender, T item);
+
     }
 }

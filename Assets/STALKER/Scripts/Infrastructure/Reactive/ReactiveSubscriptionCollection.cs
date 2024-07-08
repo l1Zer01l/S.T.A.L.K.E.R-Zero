@@ -6,12 +6,12 @@ using System;
 
 namespace StalkerZero.Infrastructure.Reactive
 {
-    public class ReactiveSubscription<T> : IDisposable
+    public class ReactiveSubscriptionCollection<T> : IDisposable
     {
-        private IReactiveProperty<T> m_reactiveOwner;
-        private IObserver<T> m_observer;
+        private IReactiveCollection<T> m_reactiveOwner;
+        private IObserverCollection<T> m_observer;
 
-        public ReactiveSubscription(IReactiveProperty<T> reactiveOwner, IObserver<T> observer)
+        public ReactiveSubscriptionCollection(IReactiveCollection<T> reactiveOwner, IObserverCollection<T> observer)
         {
             m_reactiveOwner = reactiveOwner;
             m_observer = observer;

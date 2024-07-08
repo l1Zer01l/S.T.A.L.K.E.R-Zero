@@ -4,7 +4,7 @@
 
 using System;
 
-namespace StalkerZero.Infrastructure
+namespace StalkerZero.Infrastructure.Reactive
 {
     public class SingleReactivePropretry<T> : IReactiveProperty<T>
     {

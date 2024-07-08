@@ -4,9 +4,9 @@
 
 using System;
 
-namespace StalkerZero.Infrastructure
+namespace StalkerZero.Infrastructure.Reactive
 {
-    public interface IObservable<out T>
+    public interface IObservable<T>
     {
         IDisposable Subscribe(IObserver<T> observer);
         void Unsubscribe(IObserver<T> observer);

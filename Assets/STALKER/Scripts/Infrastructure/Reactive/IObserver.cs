@@ -4,8 +4,7 @@
 
 using System;
 
-
-namespace StalkerZero.Infrastructure
+namespace StalkerZero.Infrastructure.Reactive
 {
     public interface IObserver<in T> : IDisposable
     {
