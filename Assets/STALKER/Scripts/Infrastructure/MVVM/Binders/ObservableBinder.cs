@@ -9,11 +9,12 @@ namespace StalkerZero.Infrastructure.MVVM.Binders
 {
     public abstract class ObservableBinder : Binder
     {
-        
+        public abstract Type ArgumentType { get; }
     }
 
     public abstract class ObservableBinder<T> : ObservableBinder
     {
+        public override Type ArgumentType => typeof(T);
         protected IDisposable BindObservable(string propertyName, IViewModel viewModel, Action<T> callback)
         {
             var propertyInfo = viewModel.GetType().GetProperty(propertyName);

@@ -18,6 +18,10 @@ namespace StalkerZero.Infrastructure.MVVM.Editors
 
         private SerializedProperty m_viewModelTypeFullName;
         private SerializedProperty m_isParentView;
+
+        private SerializedProperty m_subViews;
+        private SerializedProperty m_childBinders;
+
         private Dictionary<string, string> m_viewModelNames;
 
         private void OnEnable()
@@ -25,12 +29,17 @@ namespace StalkerZero.Infrastructure.MVVM.Editors
             m_viewModelNames = new Dictionary<string, string>();
             m_viewModelTypeFullName = serializedObject.FindProperty(nameof(m_viewModelTypeFullName));
             m_isParentView = serializedObject.FindProperty(nameof(m_isParentView));
+            m_subViews = serializedObject.FindProperty(nameof(m_subViews));
+            m_childBinders = serializedObject.FindProperty(nameof(m_childBinders));
         }
 
         public override void OnInspectorGUI()
         {
             DefineViewModels();
+
+            //Search ViewModel
             EditorGUILayout.BeginHorizontal();
+
             EditorGUILayout.LabelField("ViewModel: ");
             if (GUILayout.Button(GetShortName(m_viewModelTypeFullName.stringValue), EditorStyles.popup))
             {
@@ -38,7 +47,17 @@ namespace StalkerZero.Infrastructure.MVVM.Editors
                 provider.Init(m_viewModelNames.Keys.ToArray(), OnPressedSearch);
                 SearchWindow.Open(new SearchWindowContext(GUIUtility.GUIToScreenPoint(Event.current.mousePosition)), provider);
             }
+
             EditorGUILayout.EndHorizontal();
+
+
+            EditorGUI.BeginDisabledGroup(true);
+
+            EditorGUILayout.PropertyField(m_isParentView);
+            EditorGUILayout.PropertyField(m_subViews);
+            EditorGUILayout.PropertyField(m_childBinders);
+
+            EditorGUI.EndDisabledGroup();
         }
 
         private void DefineViewModels()
