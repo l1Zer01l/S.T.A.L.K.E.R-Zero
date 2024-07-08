@@ -2,13 +2,10 @@
    Copyright SkyForge Corporation. All Rights Reserved.
 \**************************************************************************/
 
-using System;
-
-namespace StalkerZero.Infrastructure.Reactive
+namespace StalkerZero.Infrastructure.MVVM
 {
-    public interface IObservable<out T>
+    public interface IViewModel
     {
-        IDisposable Subscribe(IObserver<T> observer);
-        void Unsubscribe(IObserver<T> observer);
+
     }
 }
