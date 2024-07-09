@@ -3,24 +3,23 @@
 \**************************************************************************/
 
 using StalkerZero.Infrastructure.MVVM.Binders;
-using StalkerZero.Infrastructure.Reactive;
 using UnityEditor.Experimental.GraphView;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 
 namespace StalkerZero.Infrastructure.MVVM.Editors
 {
-    [CustomEditor(typeof(ObservableBinder), true)]
-    public class ObservableBinderEditor : BinderEditor
+    [CustomEditor(typeof(GenericMethodBinder), true)]
+    public class GenericMethodBinderEditor : BinderEditor
     {
-        private ObservableBinder m_observableBinder;
+        private GenericMethodBinder m_genericMethodBinder;
         protected override void OnStart()
         {
-            m_observableBinder = target as ObservableBinder;
+            m_genericMethodBinder = target as GenericMethodBinder;
         }
-
         protected override void InspectorGUI()
         {
             DrawPropertyName();
@@ -30,17 +29,19 @@ namespace StalkerZero.Infrastructure.MVVM.Editors
         {
             var properties = new List<string>() { NONE };
 
-            properties = properties.Concat(System.Type.GetType(ViewModelTypeFullName.stringValue).GetProperties()
-                                   .Where(property => property.PropertyType.IsGenericType)
-                                   .Where(property => IsValidProperty(property.PropertyType))
+            properties = properties.Concat(System.Type.GetType(ViewModelTypeFullName.stringValue).GetMethods()
+                                   .Where(method => method.GetParameters().Length == 2 && method.ReturnType == typeof(void))
+                                   .Where(method => method.GetCustomAttribute(typeof(ReactiveMethodAttribute)) is ReactiveMethodAttribute)
+                                   .Where(method => method.GetParameters().First().ParameterType == typeof(object) && 
+                                                    method.GetParameters().Last().ParameterType == m_genericMethodBinder.ArgumentType)
                                    .Select(property => property.Name)
                                    .OrderBy(name => name))
                                    .ToList();
 
             EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField("PropertyName: ");
+            EditorGUILayout.LabelField("MethodName: ");
 
-            if (GUILayout.Button(string.IsNullOrEmpty(PropertyName.stringValue) ? NONE : PropertyName.stringValue, EditorStyles.popup))
+            if (GUILayout.Button(string.IsNullOrEmpty(MethodName.stringValue) ? NONE : MethodName.stringValue, EditorStyles.popup))
             {
                 var provider = CreateInstance<StringListSearchProvider>();
                 provider.Init(properties.ToArray(), OnPressedSearch);
@@ -52,19 +53,8 @@ namespace StalkerZero.Infrastructure.MVVM.Editors
 
         private void OnPressedSearch(string newPropertyName)
         {
-
-            PropertyName.stringValue = newPropertyName == NONE ? null : newPropertyName;
+            MethodName.stringValue = newPropertyName == NONE ? null : newPropertyName;
             serializedObject.ApplyModifiedProperties();
-        }
-
-        private bool IsValidProperty(System.Type propertyType)
-        {
-            if(propertyType.GetGenericArguments().First() != m_observableBinder.ArgumentType)
-                return false;
-
-            return propertyType.GetInterfaces().Where(i => i.IsGenericType)
-                                               .Any(i => typeof(IObservable<>).IsAssignableFrom(i.GetGenericTypeDefinition()) ||
-                                                    typeof(IObservableCollection<>).IsAssignableFrom(i.GetGenericTypeDefinition()));
         }
     }
 }
