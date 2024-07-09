@@ -4,8 +4,10 @@
 
 using StalkerZero.Infrastructure.MVVM.Binders;
 using UnityEditor.Experimental.GraphView;
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using System.Linq;
 
 namespace StalkerZero.Infrastructure.MVVM.Editors
 {
@@ -45,18 +47,23 @@ namespace StalkerZero.Infrastructure.MVVM.Editors
                 return;
             }
             base.OnInspectorGUI();
+            DrawPropertyName();
 
             InspectorGUI();
             
         }
 
-        protected abstract void InspectorGUI();
-
-        protected void DrawPropertyName(string[] options, string labelField)
+        protected virtual void InspectorGUI() { }
+        protected abstract IEnumerable<string> GetPropertyNames();
+        protected virtual string GetLabelField()
         {
-            
+            return "Property Name: ";
+        }
+        protected void DrawPropertyName()
+        {
+            var options = GetPropertyNames().ToArray();
             EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField(labelField);
+            EditorGUILayout.LabelField(GetLabelField());
 
             if (GUILayout.Button(string.IsNullOrEmpty(MethodName.stringValue) ? NONE : MethodName.stringValue, EditorStyles.popup))
             {

@@ -8,34 +8,23 @@ using System.Reflection;
 using System.Linq;
 using UnityEditor;
 
-
 namespace StalkerZero.Infrastructure.MVVM.Editors
 {
     [CustomEditor(typeof(EmptyMethodBinder))]
-    public class EmptyMethodBinderEditor : BinderEditor
+    public class EmptyMethodBinderEditor : MethodBinderEditor
     {
-        private List<string> m_methodNames;
-
-        protected override void OnStart()
+        protected override IEnumerable<string> GetMethodNames()
         {
-            m_methodNames = new List<string>();
-        }
-        protected override void InspectorGUI()
-        {
-            DefineMethodNames();
-            DrawPropertyName(m_methodNames.ToArray(), "Method Name: ");
+            var methodNames = new List<string>() { NONE };
+            return methodNames.Concat(System.Type.GetType(ViewModelTypeFullName.stringValue).GetMethods()
+                              .Where(method => method.GetParameters().Length == 0 && method.ReturnType == typeof(void))
+                              .Where(method => method.GetCustomAttribute(typeof(ReactiveMethodAttribute)) is ReactiveMethodAttribute)
+                              .Select(property => property.Name)
+                              .OrderBy(name => name));
+                                     
+            
         }
 
-        private void DefineMethodNames()
-        {
-            m_methodNames = new List<string>() { NONE };
-
-            m_methodNames = m_methodNames.Concat(System.Type.GetType(ViewModelTypeFullName.stringValue).GetMethods()
-                                         .Where(method => method.GetParameters().Length == 0 && method.ReturnType == typeof(void))
-                                         .Where(method => method.GetCustomAttribute(typeof(ReactiveMethodAttribute)) is ReactiveMethodAttribute)
-                                         .Select(property => property.Name)
-                                         .OrderBy(name => name))
-                                         .ToList();
-        }
+        protected override string GetLabelField() => "Method Name: ";
     }
 }

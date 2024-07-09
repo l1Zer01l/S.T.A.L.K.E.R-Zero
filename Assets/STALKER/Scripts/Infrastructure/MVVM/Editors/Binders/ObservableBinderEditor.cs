@@ -14,29 +14,20 @@ namespace StalkerZero.Infrastructure.MVVM.Editors
     public class ObservableBinderEditor : BinderEditor
     {
         private ObservableBinder m_observableBinder;
-        private List<string> m_properties;
         protected override void OnStart()
         {
-            m_properties = new List<string>();
             m_observableBinder = target as ObservableBinder;
         }
 
-        protected override void InspectorGUI()
+        protected override IEnumerable<string> GetPropertyNames()
         {
-            DefinePropertyName();
-            DrawPropertyName(m_properties.ToArray(), "Property Name: ");
-        }
+            var properties = new List<string>() { NONE };
 
-        private void DefinePropertyName()
-        {
-            m_properties = new List<string>() { NONE };
-
-            m_properties = m_properties.Concat(System.Type.GetType(ViewModelTypeFullName.stringValue).GetProperties()
-                                       .Where(property => property.PropertyType.IsGenericType)
-                                       .Where(property => IsValidProperty(property.PropertyType))
-                                       .Select(property => property.Name)
-                                       .OrderBy(name => name))
-                                       .ToList();
+            return properties.Concat(System.Type.GetType(ViewModelTypeFullName.stringValue).GetProperties()
+                             .Where(property => property.PropertyType.IsGenericType)
+                             .Where(property => IsValidProperty(property.PropertyType))
+                             .Select(property => property.Name)
+                             .OrderBy(name => name));
         }
 
         private bool IsValidProperty(System.Type propertyType)
@@ -46,7 +37,9 @@ namespace StalkerZero.Infrastructure.MVVM.Editors
 
             return propertyType.GetInterfaces().Where(i => i.IsGenericType)
                                                .Any(i => typeof(IObservable<>).IsAssignableFrom(i.GetGenericTypeDefinition()) ||
-                                                    typeof(IObservableCollection<>).IsAssignableFrom(i.GetGenericTypeDefinition()));
+                                                         typeof(IObservableCollection<>).IsAssignableFrom(i.GetGenericTypeDefinition()));
         }
+
+        
     }
 }
