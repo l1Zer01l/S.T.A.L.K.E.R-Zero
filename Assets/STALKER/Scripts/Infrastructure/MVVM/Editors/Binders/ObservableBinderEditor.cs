@@ -21,7 +21,7 @@ namespace StalkerZero.Infrastructure.MVVM.Editors
 
         protected override IEnumerable<string> GetPropertyNames()
         {
-            var properties = new List<string>() { NONE };
+            var properties = new List<string>() { MVVMConstant.NONE };
 
             return properties.Concat(System.Type.GetType(ViewModelTypeFullName.stringValue).GetProperties()
                              .Where(property => property.PropertyType.IsGenericType)

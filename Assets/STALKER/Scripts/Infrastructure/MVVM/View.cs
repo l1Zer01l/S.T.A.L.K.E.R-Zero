@@ -9,6 +9,9 @@ using UnityEngine;
 
 namespace StalkerZero.Infrastructure.MVVM
 {
+#if UNITY_EDITOR
+    [ExecuteInEditMode]
+#endif
     public class View : MonoBehaviour
     {
         [SerializeField] private string m_viewModelTypeFullName;
@@ -20,7 +23,7 @@ namespace StalkerZero.Infrastructure.MVVM
 
         public string ViewModelTypeFullName => m_viewModelTypeFullName;
         public string ViewModelPropertyName => m_viewModelPropertyName;
-        
+        public bool IsPaerntView => m_isParentView;
         public void Bind(IViewModel viewModel)
         {
             IViewModel targetViewModel;
@@ -66,6 +69,7 @@ namespace StalkerZero.Infrastructure.MVVM
                     parentView.RegisterView(this);
                 }
             }
+            
         }
 
         private void OnDestroy()

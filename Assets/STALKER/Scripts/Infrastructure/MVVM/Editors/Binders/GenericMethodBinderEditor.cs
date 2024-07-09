@@ -21,7 +21,7 @@ namespace StalkerZero.Infrastructure.MVVM.Editors
 
         protected override IEnumerable<string> GetMethodNames()
         {
-            var methodNames = new List<string>() { NONE };
+            var methodNames = new List<string>() { MVVMConstant.NONE };
 
             return methodNames.Concat(System.Type.GetType(ViewModelTypeFullName.stringValue).GetMethods()
                                      .Where(method => method.GetParameters().Length == 2 && method.ReturnType == typeof(void))
@@ -32,7 +32,7 @@ namespace StalkerZero.Infrastructure.MVVM.Editors
                                      .OrderBy(name => name));
         }
 
-        protected override string GetLabelField() => "Method Name: ";
+        protected override string GetLabelField() => MVVMConstant.METHOD_NAME;
         
     }
 }

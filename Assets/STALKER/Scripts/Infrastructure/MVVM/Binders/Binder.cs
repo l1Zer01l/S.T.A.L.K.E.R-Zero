@@ -10,6 +10,7 @@ namespace StalkerZero.Infrastructure.MVVM.Binders
 #if UNITY_EDITOR
     [ExecuteInEditMode]
 #endif
+
     public abstract class Binder : MonoBehaviour
     {
         [SerializeField, HideInInspector] private string m_viewModelTypeFullName;

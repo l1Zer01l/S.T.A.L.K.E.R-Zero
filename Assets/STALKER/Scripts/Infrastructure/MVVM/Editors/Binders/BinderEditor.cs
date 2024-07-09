@@ -14,7 +14,6 @@ namespace StalkerZero.Infrastructure.MVVM.Editors
     [CustomEditor(typeof(Binder), true)]
     public abstract class BinderEditor : Editor
     {
-        protected const string NONE = "None";
         protected SerializedProperty PropertyName => m_propertyName;
         protected SerializedProperty MethodName => m_propertyName;
         protected SerializedProperty ViewModelTypeFullName => m_viewModelTypeFullName;
@@ -33,39 +32,36 @@ namespace StalkerZero.Infrastructure.MVVM.Editors
             OnStart();
         }
 
-        protected virtual void OnStart() { }
         public override void OnInspectorGUI()
         {
+
             if (!m_viewModelTypeFullName.stringValue.Equals(m_parentView.ViewModelTypeFullName))
             {
                 m_viewModelTypeFullName.stringValue = m_parentView.ViewModelTypeFullName;
                 serializedObject.ApplyModifiedProperties();
             }
+
             if (string.IsNullOrEmpty(m_viewModelTypeFullName.stringValue))
             {
-                EditorGUILayout.HelpBox("Cannot find viewModel in view. Please check view!", MessageType.Warning);
+                EditorGUILayout.HelpBox(MVVMConstant.WARNING_VIEW, MessageType.Warning);
                 return;
             }
+
             base.OnInspectorGUI();
             DrawPropertyName();
 
             InspectorGUI();
             
         }
-
-        protected virtual void InspectorGUI() { }
-        protected abstract IEnumerable<string> GetPropertyNames();
-        protected virtual string GetLabelField()
-        {
-            return "Property Name: ";
-        }
+        
         protected void DrawPropertyName()
         {
             var options = GetPropertyNames().ToArray();
+
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.LabelField(GetLabelField());
 
-            if (GUILayout.Button(string.IsNullOrEmpty(MethodName.stringValue) ? NONE : MethodName.stringValue, EditorStyles.popup))
+            if (GUILayout.Button(string.IsNullOrEmpty(MethodName.stringValue) ? MVVMConstant.NONE : MethodName.stringValue, EditorStyles.popup))
             {
                 var provider = CreateInstance<StringListSearchProvider>();
                 provider.Init(options, OnPressedSearch);
@@ -75,10 +71,17 @@ namespace StalkerZero.Infrastructure.MVVM.Editors
             EditorGUILayout.EndHorizontal();
         }
 
+        protected abstract IEnumerable<string> GetPropertyNames();
+
+        protected virtual void InspectorGUI() { }
+
+        protected virtual void OnStart() { }
+        
+        protected virtual string GetLabelField() => MVVMConstant.PROPERTY_NAME;
+        
         private void OnPressedSearch(string newPropertyName)
         {
-
-            PropertyName.stringValue = newPropertyName == NONE ? null : newPropertyName;
+            PropertyName.stringValue = newPropertyName == MVVMConstant.NONE ? null : newPropertyName;
             serializedObject.ApplyModifiedProperties();
         }
 
