@@ -36,6 +36,7 @@ namespace StalkerZero.Infrastructure.MVVM.Editors
                                    .Select(property => property.Name)
                                    .OrderBy(name => name))
                                    .ToList();
+
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.LabelField("PropertyName: ");
 

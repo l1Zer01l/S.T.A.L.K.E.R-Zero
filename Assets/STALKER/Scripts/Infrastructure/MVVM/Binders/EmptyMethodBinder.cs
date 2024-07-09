@@ -15,5 +15,10 @@ namespace StalkerZero.Infrastructure.MVVM.Binders
             m_action = Delegate.CreateDelegate(typeof(Action), viewModel, MethodName) as Action;
             return null;
         }
+
+        public void Perform()
+        {
+            m_action?.Invoke();
+        }
     }
 }
