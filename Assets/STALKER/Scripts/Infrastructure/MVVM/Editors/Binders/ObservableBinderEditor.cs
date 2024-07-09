@@ -4,11 +4,9 @@
 
 using StalkerZero.Infrastructure.MVVM.Binders;
 using StalkerZero.Infrastructure.Reactive;
-using UnityEditor.Experimental.GraphView;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
-using UnityEngine;
 
 namespace StalkerZero.Infrastructure.MVVM.Editors
 {
@@ -16,45 +14,29 @@ namespace StalkerZero.Infrastructure.MVVM.Editors
     public class ObservableBinderEditor : BinderEditor
     {
         private ObservableBinder m_observableBinder;
+        private List<string> m_properties;
         protected override void OnStart()
         {
+            m_properties = new List<string>();
             m_observableBinder = target as ObservableBinder;
         }
 
         protected override void InspectorGUI()
         {
-            DrawPropertyName();
+            DefinePropertyName();
+            DrawPropertyName(m_properties.ToArray(), "Property Name: ");
         }
 
-        private void DrawPropertyName()
+        private void DefinePropertyName()
         {
-            var properties = new List<string>() { NONE };
+            m_properties = new List<string>() { NONE };
 
-            properties = properties.Concat(System.Type.GetType(ViewModelTypeFullName.stringValue).GetProperties()
-                                   .Where(property => property.PropertyType.IsGenericType)
-                                   .Where(property => IsValidProperty(property.PropertyType))
-                                   .Select(property => property.Name)
-                                   .OrderBy(name => name))
-                                   .ToList();
-
-            EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField("PropertyName: ");
-
-            if (GUILayout.Button(string.IsNullOrEmpty(PropertyName.stringValue) ? NONE : PropertyName.stringValue, EditorStyles.popup))
-            {
-                var provider = CreateInstance<StringListSearchProvider>();
-                provider.Init(properties.ToArray(), OnPressedSearch);
-                SearchWindow.Open(new SearchWindowContext(GUIUtility.GUIToScreenPoint(Event.current.mousePosition)), provider);
-            }
-
-            EditorGUILayout.EndHorizontal();
-        }
-
-        private void OnPressedSearch(string newPropertyName)
-        {
-
-            PropertyName.stringValue = newPropertyName == NONE ? null : newPropertyName;
-            serializedObject.ApplyModifiedProperties();
+            m_properties = m_properties.Concat(System.Type.GetType(ViewModelTypeFullName.stringValue).GetProperties()
+                                       .Where(property => property.PropertyType.IsGenericType)
+                                       .Where(property => IsValidProperty(property.PropertyType))
+                                       .Select(property => property.Name)
+                                       .OrderBy(name => name))
+                                       .ToList();
         }
 
         private bool IsValidProperty(System.Type propertyType)

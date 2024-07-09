@@ -3,7 +3,9 @@
 \**************************************************************************/
 
 using StalkerZero.Infrastructure.MVVM.Binders;
+using UnityEditor.Experimental.GraphView;
 using UnityEditor;
+using UnityEngine;
 
 namespace StalkerZero.Infrastructure.MVVM.Editors
 {
@@ -28,6 +30,7 @@ namespace StalkerZero.Infrastructure.MVVM.Editors
             m_propertyName = serializedObject.FindProperty(nameof(m_propertyName));
             OnStart();
         }
+
         protected virtual void OnStart() { }
         public override void OnInspectorGUI()
         {
@@ -48,6 +51,29 @@ namespace StalkerZero.Infrastructure.MVVM.Editors
         }
 
         protected abstract void InspectorGUI();
-        
+
+        protected void DrawPropertyName(string[] options, string labelField)
+        {
+            
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.LabelField(labelField);
+
+            if (GUILayout.Button(string.IsNullOrEmpty(MethodName.stringValue) ? NONE : MethodName.stringValue, EditorStyles.popup))
+            {
+                var provider = CreateInstance<StringListSearchProvider>();
+                provider.Init(options, OnPressedSearch);
+                SearchWindow.Open(new SearchWindowContext(GUIUtility.GUIToScreenPoint(Event.current.mousePosition)), provider);
+            }
+
+            EditorGUILayout.EndHorizontal();
+        }
+
+        private void OnPressedSearch(string newPropertyName)
+        {
+
+            PropertyName.stringValue = newPropertyName == NONE ? null : newPropertyName;
+            serializedObject.ApplyModifiedProperties();
+        }
+
     }
 }
