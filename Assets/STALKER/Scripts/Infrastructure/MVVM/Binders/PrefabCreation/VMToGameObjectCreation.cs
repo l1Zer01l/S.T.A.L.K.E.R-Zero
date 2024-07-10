@@ -2,10 +2,9 @@
    Copyright SkyForge Corporation. All Rights Reserved.
 \**************************************************************************/
 
-using System;
 using UnityEngine;
 
-namespace StalkerZero.Infrastructure.MVVM.Binders.PrefabCreation
+namespace StalkerZero.Infrastructure.MVVM.Binders
 {
     public class VMToGameObjectCreation : Binder
     {
