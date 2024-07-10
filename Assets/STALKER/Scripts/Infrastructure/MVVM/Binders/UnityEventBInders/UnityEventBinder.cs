@@ -11,12 +11,8 @@ namespace StalkerZero.Infrastructure.MVVM.Binders
     {
         [SerializeField] private UnityEvent<T> m_event;
         [SerializeField] private UnityEvent<object, T> m_eventWithAnalitics;
-        protected override IBinding BindInternal(IViewModel viewModel)
-        {
-            return BindObservable(PropertyName, viewModel, OnPropertyChanged);
-        }
-
-        private void OnPropertyChanged(object sender, T newValue)
+        
+        protected override void OnPropertyChanged(object sender, T newValue)
         {
             m_event?.Invoke(newValue);
             m_eventWithAnalitics?.Invoke(sender, newValue);

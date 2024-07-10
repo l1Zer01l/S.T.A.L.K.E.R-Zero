@@ -3,7 +3,6 @@
 \**************************************************************************/
 
 using StalkerZero.Infrastructure.MVVM.Binders;
-using System;
 using System.Collections.Generic;
 
 namespace StalkerZero.Infrastructure.Reactive
@@ -51,5 +50,5 @@ namespace StalkerZero.Infrastructure.Reactive
             foreach (var observer in m_observers)
                 observer.NotifyObservableChanged(sender, newValue);
         }
-    }
+    }  
 }

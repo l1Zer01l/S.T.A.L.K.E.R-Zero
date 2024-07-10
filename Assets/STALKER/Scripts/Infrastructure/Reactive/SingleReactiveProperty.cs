@@ -3,16 +3,22 @@
 \**************************************************************************/
 
 using StalkerZero.Infrastructure.MVVM.Binders;
-using System;
 
 namespace StalkerZero.Infrastructure.Reactive
 {
-    public class SingleReactivePropretry<T> : IReactiveProperty<T>
+    public class SingleReactiveProperty <T> : IReactiveProperty<T>
     {
         public T Value => m_value;
 
         private T m_value;
         private IObserver<T> m_observer;
+
+        public SingleReactiveProperty()
+        {
+            m_value = default(T);
+            m_observer = null;
+        }
+
         public void SetValue(object sender, T newValue)
         {
             if (newValue.Equals(m_value))
@@ -48,7 +54,7 @@ namespace StalkerZero.Infrastructure.Reactive
         {
             if (m_observer != null)
             {
-                m_observer.NotifyObservableChanged(sender, newValue);
+                m_observer?.NotifyObservableChanged(sender, newValue);
             }
         }
     }

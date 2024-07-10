@@ -13,12 +13,7 @@ namespace StalkerZero.Infrastructure.MVVM.Binders
         [SerializeField] private float m_compareValue;
         [SerializeField] private UnityEvent<bool> m_event;
         [SerializeField] private UnityEvent<object, bool> m_eventWithAnalitics;
-        protected override IBinding BindInternal(IViewModel viewModel)
-        {
-            return BindObservable(PropertyName, viewModel, OnPropertyChanged);
-        }
-
-        private void OnPropertyChanged(object sender, float newValue)
+        protected override void OnPropertyChanged(object sender, float newValue)
         {
             var result = m_compareOperation.Compare(newValue, m_compareValue);
             m_event?.Invoke(result);

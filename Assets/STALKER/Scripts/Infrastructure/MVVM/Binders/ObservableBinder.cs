@@ -15,6 +15,12 @@ namespace StalkerZero.Infrastructure.MVVM.Binders
     public abstract class ObservableBinder<T> : ObservableBinder
     {
         public override Type ArgumentType => typeof(T);
+        protected abstract void OnPropertyChanged(object sender, T newValue);
+        protected override IBinding BindInternal(IViewModel viewModel)
+        {
+            return BindObservable(PropertyName, viewModel, OnPropertyChanged);
+        }
+
         protected IBinding BindObservable(string propertyName, IViewModel viewModel, Action<T> callback)
         {
             var propertyInfo = viewModel.GetType().GetProperty(propertyName);
