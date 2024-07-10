@@ -4,16 +4,18 @@
 
 using System;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace StalkerZero.Infrastructure.MVVM.Binders
 {
     public class EmptyMethodBinder : MethodBinder
     {
-        [SerializeField] private event Action<object> m_action;
+        [SerializeField] protected Action<object> m_action;
+        
         protected override IBinding BindInternal(IViewModel viewModel)
         {
             m_action = Delegate.CreateDelegate(typeof(Action<object>), viewModel, MethodName) as Action<object>;
+            OnBind();
+
             return null;
         }
 
@@ -27,5 +29,7 @@ namespace StalkerZero.Infrastructure.MVVM.Binders
         {
             m_action?.Invoke(sender);
         }
+
+        protected virtual void OnBind() { }
     }
 }

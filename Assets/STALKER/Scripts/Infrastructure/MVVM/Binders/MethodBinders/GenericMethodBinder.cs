@@ -16,13 +16,14 @@ namespace StalkerZero.Infrastructure.MVVM.Binders
     {
         public override Type ArgumentType => typeof(T);
 
-        private event Action<object, T> m_action;
+        protected Action<object, T> m_action;
         protected override IBinding BindInternal(IViewModel viewModel)
         {
             m_action = Delegate.CreateDelegate(typeof(Action<object, T>), viewModel, MethodName) as Action<object, T>;
+            OnBind();
             return null;
         }
-
+        protected virtual void OnBind() { }
         public void Perform(T newValue)
         {
             m_action?.Invoke(null, newValue);

@@ -48,9 +48,10 @@ namespace StalkerZero.Infrastructure.MVVM.Editors
             }
 
             base.OnInspectorGUI();
+            UpInspectorGUI();
             DrawPropertyName();
 
-            InspectorGUI();
+            DownInspectorGUI();
             
         }
         
@@ -73,8 +74,9 @@ namespace StalkerZero.Infrastructure.MVVM.Editors
 
         protected abstract IEnumerable<string> GetPropertyNames();
 
-        protected virtual void InspectorGUI() { }
+        protected virtual void UpInspectorGUI() { }
 
+        protected virtual void DownInspectorGUI() { }
         protected virtual void OnStart() { }
         
         protected virtual string GetLabelField() => MVVMConstant.PROPERTY_NAME;

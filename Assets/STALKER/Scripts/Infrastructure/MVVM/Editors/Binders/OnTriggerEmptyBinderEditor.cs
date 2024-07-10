@@ -1,23 +1,23 @@
-/**************************************************************************\
+﻿/**************************************************************************\
    Copyright SkyForge Corporation. All Rights Reserved.
 \**************************************************************************/
 
 using StalkerZero.Infrastructure.MVVM.Binders;
 using System.Collections.Generic;
-using System.Reflection;
 using System.Linq;
+using System.Reflection;
 using UnityEditor;
 
 namespace StalkerZero.Infrastructure.MVVM.Editors
 {
-    [CustomEditor(typeof(EmptyMethodBinder), true)]
-    public class EmptyMethodBinderEditor : MethodBinderEditor
+    [CustomEditor(typeof(OnTriggerEmptyBinder), true)]
+    public class OnTriggerEmptyBinderEditor : OnTriggerMethodBinderEditor
     {
         protected override IEnumerable<string> GetMethodNames()
         {
             var methodNames = new List<string>() { MVVMConstant.NONE };
             return methodNames.Concat(System.Type.GetType(ViewModelTypeFullName.stringValue).GetMethods()
-                              .Where(method => method.GetParameters().Length == 1 && 
+                              .Where(method => method.GetParameters().Length == 1 &&
                                      method.GetParameters().First().ParameterType == typeof(object) &&
                                      method.ReturnType == typeof(void))
                               .Where(method => method.GetCustomAttribute(typeof(ReactiveMethodAttribute)) is ReactiveMethodAttribute)

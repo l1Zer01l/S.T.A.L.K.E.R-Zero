@@ -17,5 +17,6 @@ namespace StalkerZero.Infrastructure.MVVM
         public const string WARNING_VIEW = "Cannot find viewModel in view. Please check view!";
         public const string METHOD_NAME = "Method Name: ";
         public const string PROPERTY_NAME = "Property Name: ";
+        public const string TRIGGER_VIEW = "Trigger View: ";
     }
 }
