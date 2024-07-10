@@ -17,7 +17,9 @@ namespace StalkerZero.Infrastructure.MVVM.Editors
         {
             var methodNames = new List<string>() { MVVMConstant.NONE };
             return methodNames.Concat(System.Type.GetType(ViewModelTypeFullName.stringValue).GetMethods()
-                              .Where(method => method.GetParameters().Length == 0 && method.ReturnType == typeof(void))
+                              .Where(method => method.GetParameters().Length == 1 && 
+                                     method.GetParameters().First().ParameterType == typeof(object) &&
+                                     method.ReturnType == typeof(void))
                               .Where(method => method.GetCustomAttribute(typeof(ReactiveMethodAttribute)) is ReactiveMethodAttribute)
                               .Select(property => property.Name)
                               .OrderBy(name => name));

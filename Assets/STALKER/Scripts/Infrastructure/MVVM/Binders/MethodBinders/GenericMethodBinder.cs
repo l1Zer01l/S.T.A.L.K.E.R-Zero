@@ -3,6 +3,7 @@
 \**************************************************************************/
 
 using System;
+using UnityEngine;
 
 namespace StalkerZero.Infrastructure.MVVM.Binders
 {
@@ -22,7 +23,12 @@ namespace StalkerZero.Infrastructure.MVVM.Binders
             return null;
         }
 
-        public void Perform(object sender, T newValue)
+        public void Perform(T newValue)
+        {
+            m_action?.Invoke(null, newValue);
+        }
+
+        public void Perform(Component sender, T newValue)
         {
             m_action?.Invoke(sender, newValue);
         }
