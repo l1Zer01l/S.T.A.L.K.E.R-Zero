@@ -4,8 +4,8 @@
 
 namespace StalkerZero.Infrastructure.MVVM.Binders
 {
-    public class BoolToUnityEventBinder : UnityEventBinder<bool>
+    public class FloatToUnityEventBinder : UnityEventBinder<float>
     {
-        
+
     }
 }

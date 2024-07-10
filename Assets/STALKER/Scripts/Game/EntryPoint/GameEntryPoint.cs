@@ -53,8 +53,8 @@ namespace StalkerZero
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         private static void Start()
         {
-            m_instance = new GameEntryPoint();
-            m_instance.Init();
+            //m_instance = new GameEntryPoint();
+            //m_instance.Init();
         }
 
         private void RegisterService(DIContainer container)
