@@ -12,7 +12,7 @@ namespace StalkerZero.Infrastructure.MVVM.Binders
     {
         [SerializeField] private UnityEvent<T> m_event;
         [SerializeField] private UnityEvent<object, T> m_eventWithAnalitics;
-        protected override IDisposable BindInternal(IViewModel viewModel)
+        protected override IBinding BindInternal(IViewModel viewModel)
         {
             return BindObservable(PropertyName, viewModel, OnPropertyChanged);
         }

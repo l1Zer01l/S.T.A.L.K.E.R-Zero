@@ -2,7 +2,6 @@
    Copyright SkyForge Corporation. All Rights Reserved.
 \**************************************************************************/
 
-using System;
 using UnityEngine;
 
 namespace StalkerZero.Infrastructure.MVVM.Binders
@@ -18,15 +17,18 @@ namespace StalkerZero.Infrastructure.MVVM.Binders
         public string ViewModelTypeFullName => m_viewModelTypeFullName;
         protected string PropertyName => m_propertyName;
 
-        private IDisposable m_binding;
+        private IBinding m_binding;
         protected virtual void OnDestroyed() { }
         protected virtual void OnStart() { }
 
         public void Bind(IViewModel viewModel)
         {
             m_binding = BindInternal(viewModel);
+            m_binding?.Binded();
         }
-        protected abstract IDisposable BindInternal(IViewModel viewModel);
+
+        protected abstract IBinding BindInternal(IViewModel viewModel);
+
         private void Start()
         {
 #if UNITY_EDITOR

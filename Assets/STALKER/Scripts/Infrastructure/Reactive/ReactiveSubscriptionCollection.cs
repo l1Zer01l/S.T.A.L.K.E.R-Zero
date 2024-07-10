@@ -2,11 +2,12 @@
    Copyright SkyForge Corporation. All Rights Reserved.
 \**************************************************************************/
 
+using StalkerZero.Infrastructure.MVVM.Binders;
 using System;
 
 namespace StalkerZero.Infrastructure.Reactive
 {
-    public class ReactiveSubscriptionCollection<T> : IDisposable
+    public class ReactiveSubscriptionCollection<T> : IBinding
     {
         private IReactiveCollection<T> m_reactiveOwner;
         private IObserverCollection<T> m_observer;
@@ -15,6 +16,11 @@ namespace StalkerZero.Infrastructure.Reactive
         {
             m_reactiveOwner = reactiveOwner;
             m_observer = observer;
+        }
+
+        public void Binded()
+        {
+            
         }
 
         public void Dispose()

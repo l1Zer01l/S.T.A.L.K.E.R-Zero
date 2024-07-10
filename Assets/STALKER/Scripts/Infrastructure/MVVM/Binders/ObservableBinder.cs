@@ -15,7 +15,7 @@ namespace StalkerZero.Infrastructure.MVVM.Binders
     public abstract class ObservableBinder<T> : ObservableBinder
     {
         public override Type ArgumentType => typeof(T);
-        protected IDisposable BindObservable(string propertyName, IViewModel viewModel, Action<T> callback)
+        protected IBinding BindObservable(string propertyName, IViewModel viewModel, Action<T> callback)
         {
             var propertyInfo = viewModel.GetType().GetProperty(propertyName);
             var observable = propertyInfo.GetValue(viewModel) as Reactive.IObservable<T>;
@@ -23,7 +23,7 @@ namespace StalkerZero.Infrastructure.MVVM.Binders
             return handle;
         }
 
-        protected IDisposable BindObservable(string propertyName, IViewModel viewModel, Action<object, T> callback)
+        protected IBinding BindObservable(string propertyName, IViewModel viewModel, Action<object, T> callback)
         {
             var propertyInfo = viewModel.GetType().GetProperty(propertyName);
             var observable = propertyInfo.GetValue(viewModel) as Reactive.IObservable<T>;
@@ -31,7 +31,7 @@ namespace StalkerZero.Infrastructure.MVVM.Binders
             return handle;
         }
 
-        protected IDisposable BindCollection(string propertyName, IViewModel viewModel, Action<T> actionAdded, Action<T> actionRemoved, Action actionClear)
+        protected IBinding BindCollection(string propertyName, IViewModel viewModel, Action<T> actionAdded, Action<T> actionRemoved, Action actionClear)
         {
             var propertyInfo = viewModel.GetType().GetProperty(propertyName);
             var observable = propertyInfo.GetValue(viewModel) as IObservableCollection<T>;
@@ -39,7 +39,7 @@ namespace StalkerZero.Infrastructure.MVVM.Binders
             return handle;
         }
 
-        protected IDisposable BindCollection(string propertyName, IViewModel viewModel, Action<object, T> actionAdded, Action<object, T> actionRemoved, Action<object> actionClear)
+        protected IBinding BindCollection(string propertyName, IViewModel viewModel, Action<object, T> actionAdded, Action<object, T> actionRemoved, Action<object> actionClear)
         {
             var propertyInfo = viewModel.GetType().GetProperty(propertyName);
             var observable = propertyInfo.GetValue(viewModel) as IObservableCollection<T>;

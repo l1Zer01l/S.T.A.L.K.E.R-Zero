@@ -2,6 +2,7 @@
    Copyright SkyForge Corporation. All Rights Reserved.
 \**************************************************************************/
 
+using StalkerZero.Infrastructure.MVVM.Binders;
 using System;
 
 namespace StalkerZero.Infrastructure.Reactive
@@ -21,7 +22,7 @@ namespace StalkerZero.Infrastructure.Reactive
             OnChanged(sender, newValue);
         }
 
-        public IDisposable Subscribe(IObserver<T> observer)
+        public IBinding Subscribe(IObserver<T> observer)
         {
             if (m_observer != null)
             {

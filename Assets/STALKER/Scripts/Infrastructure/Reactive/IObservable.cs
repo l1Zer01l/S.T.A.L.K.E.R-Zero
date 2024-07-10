@@ -2,13 +2,13 @@
    Copyright SkyForge Corporation. All Rights Reserved.
 \**************************************************************************/
 
-using System;
+using StalkerZero.Infrastructure.MVVM.Binders;
 
 namespace StalkerZero.Infrastructure.Reactive
 {
     public interface IObservable<out T>
     {
-        IDisposable Subscribe(IObserver<T> observer);
+        IBinding Subscribe(IObserver<T> observer);
         void Unsubscribe(IObserver<T> observer);
     }
 }

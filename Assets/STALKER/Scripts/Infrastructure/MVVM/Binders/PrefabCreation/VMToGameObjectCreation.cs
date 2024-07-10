@@ -10,7 +10,7 @@ namespace StalkerZero.Infrastructure.MVVM.Binders.PrefabCreation
     public class VMToGameObjectCreation : Binder
     {
         [SerializeField] private View m_prefabView;
-        protected override IDisposable BindInternal(IViewModel viewModel)
+        protected override IBinding BindInternal(IViewModel viewModel)
         {
             var type = viewModel.GetType();
             if (type.FullName.Equals(ViewModelTypeFullName))
