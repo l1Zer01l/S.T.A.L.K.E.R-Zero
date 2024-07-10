@@ -876,6 +876,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 591ec43d7de40194e976d6765c5385fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_viewModelTypeFullName: StalkerZero.MainMenuViewModel
+  m_viewModelPropertyName: 
+  m_isParentView: 1
+  m_subViews: []
+  m_childBinders: []
 --- !u!1 &6313669965043680621
 GameObject:
   m_ObjectHideFlags: 0

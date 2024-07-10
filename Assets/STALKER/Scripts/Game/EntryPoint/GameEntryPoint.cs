@@ -21,18 +21,15 @@ namespace StalkerZero
         private GameEntryPoint()
         {
             m_rootContainer = new DIContainer();
+            
             RegisterService(m_rootContainer);
+            RegisterViewModel(m_rootContainer);
+            BindView(m_rootContainer);
 
+            //Init Coroutines
             m_coroutines = new GameObject("[COROUTINES]").AddComponent<Coroutines>();
             Object.DontDestroyOnLoad(m_coroutines.gameObject);
             m_rootContainer.RegisterInstance(m_coroutines);
-
-            var loadService = m_rootContainer.Resolve<LoadService>();
-
-            var m_uIRootViewPrefab = loadService.LoadPrefab<UIRootView>(LoadService.PREFAB_UI_ROOT);
-            m_uIRootView = Object.Instantiate(m_uIRootViewPrefab);
-            Object.DontDestroyOnLoad(m_uIRootView.gameObject);
-            m_rootContainer.RegisterInstance(m_uIRootView);
         }
 
         public void Init()
@@ -53,8 +50,8 @@ namespace StalkerZero
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         private static void Start()
         {
-            //m_instance = new GameEntryPoint();
-            //m_instance.Init();
+            m_instance = new GameEntryPoint();
+            m_instance.Init();
         }
 
         private void RegisterService(DIContainer container)
@@ -62,6 +59,24 @@ namespace StalkerZero
             container.RegisterSingleton(factory => new SceneService());
 
             container.RegisterSingleton(factory => new LoadService());
+        }
+
+        private void RegisterViewModel(DIContainer container)
+        {
+            container.RegisterSingleton<IUIRootViewModel>(factory => new UIRootViewModel());
+        }
+
+        private void BindView(DIContainer container)
+        {
+            var loadService = container.Resolve<LoadService>();
+
+
+            //Bind UIRootView
+            var uIRootViewModel = container.Resolve<IUIRootViewModel>();
+            var uIRootViewPrefab = loadService.LoadPrefab<UIRootView>(LoadService.PREFAB_UI_ROOT);
+            m_uIRootView = Object.Instantiate(uIRootViewPrefab);
+            Object.DontDestroyOnLoad(m_uIRootView.gameObject);
+            m_uIRootView.Bind(uIRootViewModel);
         }
 
         private void OnLoadScene(Scene scene, LoadSceneMode mode)
@@ -79,14 +94,15 @@ namespace StalkerZero
 
         private IEnumerator LoadMainMenu()
         {
-            m_uIRootView.ShowLoadingScreen();
+            var uIRootViewModel = m_rootContainer.Resolve<IUIRootViewModel>();
+            uIRootViewModel.ShowLoadingScreen();
 
             var mainMenuContainer = new DIContainer(m_rootContainer);
 
             var mainMenuEntryPoint = UnityExtention.GetEntryPoint<MainMenuEntryPoint>();
             yield return mainMenuEntryPoint.Intialization(mainMenuContainer);
 
-            m_uIRootView.HideLoadingScreen();
+            uIRootViewModel.HideLoadingScreen();
         }
     }
 }

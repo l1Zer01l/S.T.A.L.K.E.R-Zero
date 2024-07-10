@@ -12,23 +12,40 @@ namespace StalkerZero
     public class MainMenuEntryPoint : MonoBehaviour, IEntryPoint
     {
         private DIContainer m_container;
-        private UIMainMenuView m_uIMainMenu;
-        private AudioSource m_audioSource;
+        private UIMainMenuView m_uIMainMenuView;
         public IEnumerator Intialization(DIContainer parentContainer)
         {
             m_container = parentContainer;
 
-            var loadService = m_container.Resolve<LoadService>();
-            var uIMeinMenuPrefab = loadService.LoadPrefab<UIMainMenuView>(LoadService.PREFAB_UI_MAIN_MENU);
-            m_uIMainMenu = Object.Instantiate(uIMeinMenuPrefab);
-
-            var rootUI = m_container.Resolve<UIRootView>();
-            rootUI.AttachSceneUIStatic(m_uIMainMenu.gameObject);
-
-            m_audioSource = GetComponent<AudioSource>();
-            m_audioSource.Play();
+            RegisterService(m_container);
+            RegisterViewModel(m_container);
+            BindView(m_container);
 
             yield return null;
+        }
+
+        private void RegisterService(DIContainer container)
+        {
+
+        }
+
+        private void RegisterViewModel(DIContainer container)
+        {
+            container.RegisterSingleton<IMainMenuViewModel>(factory => new MainMenuViewModel());
+        }
+
+        private void BindView(DIContainer container)
+        {
+            var loadService = container.Resolve<LoadService>();
+
+
+            //Bind UIMainMenuView
+            var uIMeinMenuPrefab = loadService.LoadPrefab<UIMainMenuView>(LoadService.PREFAB_UI_MAIN_MENU);
+            m_uIMainMenuView = Instantiate(uIMeinMenuPrefab);
+            var uIRootViewModel = container.Resolve<IUIRootViewModel>();
+            uIRootViewModel.AttachSceneUIStatic(m_uIMainMenuView);
+            var mainMenuViewModel = container.Resolve<IMainMenuViewModel>();
+            m_uIMainMenuView.Bind(mainMenuViewModel);
         }
     }
 }
