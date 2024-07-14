@@ -3,9 +3,11 @@
 \**************************************************************************/
 
 using StalkerZero.Infrastructure;
+using System.Collections.Generic;
 using StalkerZero.Services;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Audio;
 
 namespace StalkerZero
 {
@@ -13,6 +15,9 @@ namespace StalkerZero
     {
         private DIContainer m_container;
         private UIMainMenuView m_uIMainMenuView;
+
+        [SerializeField] private List<AudioClip> m_musicBackgrounds;
+        [SerializeField] private AudioMixerGroup m_MenuMusicGroup;
         public IEnumerator Intialization(DIContainer parentContainer)
         {
             m_container = parentContainer;
@@ -21,17 +26,18 @@ namespace StalkerZero
             RegisterViewModel(m_container);
             BindView(m_container);
 
+            PlayMusicMenu();
             yield return null;
         }
 
         private void RegisterService(DIContainer container)
         {
-
+            container.RegisterInstance(m_MenuMusicGroup, nameof(m_MenuMusicGroup));
         }
 
         private void RegisterViewModel(DIContainer container)
         {
-            container.RegisterSingleton<IMainMenuViewModel>(factory => new MainMenuViewModel());
+            container.RegisterSingleton<IMainMenuViewModel>(factory => new MainMenuViewModel(factory));
         }
 
         private void BindView(DIContainer container)
@@ -46,6 +52,14 @@ namespace StalkerZero
             uIRootViewModel.AttachSceneUIStatic(m_uIMainMenuView);
             var mainMenuViewModel = container.Resolve<IMainMenuViewModel>();
             m_uIMainMenuView.Bind(mainMenuViewModel);
+        }
+
+        private void PlayMusicMenu()
+        {
+            var clip = m_musicBackgrounds[Random.Range(0, m_musicBackgrounds.Count)];
+            var audioSource = transform.GetComponent<AudioSource>();
+            audioSource.clip = clip;
+            audioSource.Play();
         }
     }
 }

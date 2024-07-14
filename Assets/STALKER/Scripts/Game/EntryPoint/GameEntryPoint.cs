@@ -59,6 +59,16 @@ namespace StalkerZero
             container.RegisterSingleton(factory => new SceneService());
 
             container.RegisterSingleton(factory => new LoadService());
+
+            //----------- After Load Service ------------------
+
+            //Register AudioService
+            var loadService = container.Resolve<LoadService>();
+            var audioServicePrefab = loadService.LoadPrefab<AudioService>(LoadService.PREFAB_AUDIO_SERVICE);
+            var audioService = Object.Instantiate(audioServicePrefab);
+            Object.DontDestroyOnLoad(audioService);
+            container.RegisterInstance(audioService);
+
         }
 
         private void RegisterViewModel(DIContainer container)
