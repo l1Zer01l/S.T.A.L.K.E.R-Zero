@@ -1579,6 +1579,7 @@ MonoBehaviour:
   - {fileID: 286714466251431455}
   - {fileID: 3007327487857375542}
   - {fileID: 5666064500422195688}
+  - {fileID: 3662045265946269002}
 --- !u!114 &9220966572137447660
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2351,6 +2352,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2843881981919951607}
   - component: {fileID: 6127967455692530348}
+  - component: {fileID: 2793375009809675619}
   m_Layer: 5
   m_Name: UIMainMenu
   m_TagString: Untagged
@@ -2398,7 +2400,40 @@ MonoBehaviour:
   m_subViews:
   - {fileID: 9002839781082814404}
   - {fileID: 862832374662716054}
-  m_childBinders: []
+  m_childBinders:
+  - {fileID: 2793375009809675619}
+--- !u!114 &2793375009809675619
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5364637913277322417}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7da58a32bc0e7ef4084c064e189e9b57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_viewModelTypeFullName: StalkerZero.MainMenuViewModel
+  m_propertyName: IsOpenMainMenu
+  m_event:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5364637913277322417}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  m_eventWithAnalitics:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &5836647481396874544
 GameObject:
   m_ObjectHideFlags: 0
@@ -3599,6 +3634,7 @@ GameObject:
   - component: {fileID: 316878505274351131}
   - component: {fileID: 9103576237875245133}
   - component: {fileID: 3335118726849027675}
+  - component: {fileID: 3662045265946269002}
   m_Layer: 5
   m_Name: NewGame
   m_TagString: Untagged
@@ -3707,7 +3743,34 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 9103576237875245133}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 3662045265946269002}
+        m_TargetAssemblyTypeName: StalkerZero.Infrastructure.MVVM.Binders.EmptyMethodBinder,
+          Assembly-CSharp
+        m_MethodName: Perform
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &3662045265946269002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8737423205531140735}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d7cf2d2f1de724459c6abbdbf57106d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_viewModelTypeFullName: StalkerZero.MenuPanelViewModel
+  m_propertyName: StartGame
 --- !u!1 &8852482197773672854
 GameObject:
   m_ObjectHideFlags: 0

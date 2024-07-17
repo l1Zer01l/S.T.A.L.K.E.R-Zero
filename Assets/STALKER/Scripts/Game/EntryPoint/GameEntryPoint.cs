@@ -94,6 +94,9 @@ namespace StalkerZero
             var sceneName = scene.name;
             if (sceneName.Equals(SceneService.MAIN_MENU_SCENE))
                 m_coroutines.StartCoroutine(LoadMainMenu());
+
+            if (sceneName.Equals(SceneService.GAMEPLAY_SCENE))
+                m_coroutines.StartCoroutine(LoadGamePlay());
         }
 
         private IEnumerator LoadAndStartMainMenu()
@@ -104,6 +107,7 @@ namespace StalkerZero
 
         private IEnumerator LoadMainMenu()
         {
+            Time.timeScale = 0f;
             var uIRootViewModel = m_rootContainer.Resolve<IUIRootViewModel>();
             uIRootViewModel.ShowLoadingScreen();
 
@@ -113,6 +117,23 @@ namespace StalkerZero
             yield return mainMenuEntryPoint.Intialization(mainMenuContainer);
 
             uIRootViewModel.HideLoadingScreen();
+            Time.timeScale = 1f;
+        }
+
+        private IEnumerator LoadGamePlay()
+        {
+            Time.timeScale = 0f;
+            var uIRootViewModel = m_rootContainer.Resolve<IUIRootViewModel>();
+            uIRootViewModel.ShowLoadingScreen();
+
+            var sceneService = m_rootContainer.Resolve<SceneService>();
+            var gamePlayContainer = new DIContainer(sceneService.cachedContainer);
+
+            var gamePlayEntryPoint = UnityExtention.GetEntryPoint<GamePlayEntryPoint>();
+            yield return gamePlayEntryPoint.Intialization(gamePlayContainer);
+
+            uIRootViewModel.HideLoadingScreen();
+            Time.timeScale = 1f;
         }
     }
 }

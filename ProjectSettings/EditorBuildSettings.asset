@@ -11,6 +11,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/STALKER/Scenes/MainMenu.unity
     guid: ab9c9737d27d1014f89810dc3be7f193
+  - enabled: 1
+    path: Assets/STALKER/Scenes/GamePlay.unity
+    guid: ae29cd8d184be1c4e8f1f92bc38c5de2
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

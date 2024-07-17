@@ -8,6 +8,8 @@ namespace StalkerZero
 {
     public interface IMainMenuViewModel : IViewModel
     {
+        void ShowMainMenu();
 
+        void HideMainMenu();
     }
 }

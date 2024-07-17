@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using StalkerZero.Services;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Audio;
 
 namespace StalkerZero
 {
@@ -17,7 +16,6 @@ namespace StalkerZero
         private UIMainMenuView m_uIMainMenuView;
 
         [SerializeField] private List<AudioClip> m_musicBackgrounds;
-        [SerializeField] private AudioMixerGroup m_MenuMusicGroup;
         public IEnumerator Intialization(DIContainer parentContainer)
         {
             m_container = parentContainer;
@@ -32,7 +30,7 @@ namespace StalkerZero
 
         private void RegisterService(DIContainer container)
         {
-            container.RegisterInstance(m_MenuMusicGroup, nameof(m_MenuMusicGroup));
+
         }
 
         private void RegisterViewModel(DIContainer container)

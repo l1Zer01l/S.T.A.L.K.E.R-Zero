@@ -41,7 +41,5 @@ namespace StalkerZero
             UIStaticView.Clear();
             UIDynamicView.Add(dynamicView);
         }
-
-
     }
 }
