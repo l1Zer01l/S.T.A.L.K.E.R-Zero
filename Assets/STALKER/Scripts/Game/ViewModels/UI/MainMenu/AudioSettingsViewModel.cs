@@ -11,9 +11,9 @@ namespace StalkerZero
     public class AudioSettingsViewModel : IViewModel
     {
         private AudioService m_audioService;
-        public AudioSettingsViewModel(DIContainer container) 
+        public AudioSettingsViewModel(AudioService audioService) 
         {
-            m_audioService = container.Resolve<AudioService>();
+            m_audioService = audioService;
         }
 
         [ReactiveMethod]

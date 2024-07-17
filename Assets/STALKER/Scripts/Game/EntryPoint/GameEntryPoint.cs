@@ -92,11 +92,15 @@ namespace StalkerZero
         private void OnLoadScene(Scene scene, LoadSceneMode mode)
         {
             var sceneName = scene.name;
+
             if (sceneName.Equals(SceneService.MAIN_MENU_SCENE))
                 m_coroutines.StartCoroutine(LoadMainMenu());
 
-            if (sceneName.Equals(SceneService.GAMEPLAY_SCENE))
+            else if (sceneName.Equals(SceneService.GAMEPLAY_SCENE))
                 m_coroutines.StartCoroutine(LoadGamePlay());
+
+            else if (sceneName.Equals(SceneService.BOOT_STRAP_SCENE))
+                LoadBootStrap();
         }
 
         private IEnumerator LoadAndStartMainMenu()
@@ -105,11 +109,16 @@ namespace StalkerZero
             yield return sceneService.LoadMenu();
         }
 
-        private IEnumerator LoadMainMenu()
+        private void LoadBootStrap()
         {
             Time.timeScale = 0f;
             var uIRootViewModel = m_rootContainer.Resolve<IUIRootViewModel>();
             uIRootViewModel.ShowLoadingScreen();
+        }
+
+        private IEnumerator LoadMainMenu()
+        {
+            var uIRootViewModel = m_rootContainer.Resolve<IUIRootViewModel>();
 
             var mainMenuContainer = new DIContainer(m_rootContainer);
 
@@ -117,17 +126,15 @@ namespace StalkerZero
             yield return mainMenuEntryPoint.Intialization(mainMenuContainer);
 
             uIRootViewModel.HideLoadingScreen();
+            
             Time.timeScale = 1f;
         }
 
         private IEnumerator LoadGamePlay()
         {
-            Time.timeScale = 0f;
             var uIRootViewModel = m_rootContainer.Resolve<IUIRootViewModel>();
-            uIRootViewModel.ShowLoadingScreen();
 
-            var sceneService = m_rootContainer.Resolve<SceneService>();
-            var gamePlayContainer = new DIContainer(sceneService.cachedContainer);
+            var gamePlayContainer = new DIContainer(m_rootContainer);
 
             var gamePlayEntryPoint = UnityExtention.GetEntryPoint<GamePlayEntryPoint>();
             yield return gamePlayEntryPoint.Intialization(gamePlayContainer);

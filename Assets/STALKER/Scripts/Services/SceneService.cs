@@ -4,7 +4,6 @@
 
 using StalkerZero.Infrastructure;
 using System.Collections;
-using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
@@ -39,10 +38,8 @@ namespace StalkerZero.Services
             yield return LoadScene(MAIN_MENU_SCENE);
         }
 
-        public IEnumerator LoadGame(DIContainer container)
+        public IEnumerator LoadGame()
         {
-            cachedContainer = container;
-
             yield return LoadScene(BOOT_STRAP_SCENE);
             yield return LoadScene(GAMEPLAY_SCENE);
         }

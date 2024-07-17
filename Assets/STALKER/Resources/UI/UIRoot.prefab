@@ -72,8 +72,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03255c4e8f3d90343a2d90b963b4ccef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_staticUIContainer: {fileID: 5777655149559629583}
-  m_dynamicUIContainer: {fileID: 8561072445947286799}
+  m_staticUIContainer: {fileID: 6963316507622532063}
+  m_dynamicUIContainer: {fileID: 4188693050787310355}
 --- !u!114 &3851570494747612250
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -258,7 +258,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1379572777017032250}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0

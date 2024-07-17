@@ -4,6 +4,7 @@
 
 using StalkerZero.Infrastructure;
 using StalkerZero.Infrastructure.Reactive;
+using StalkerZero.Services;
 
 namespace StalkerZero
 {
@@ -16,7 +17,9 @@ namespace StalkerZero
         {
             IsOpenMainMenu.SetValue(null, true);
             MenuPanelViewModel = new MenuPanelViewModel(container);
-            MenuSettingsViewModel = new MenuSettingsViewModel(container);
+            MenuSettingsViewModel = new MenuSettingsViewModel(container.Resolve<AudioService>());
+            MenuPanelViewModel.OnOpenMenuSettings += OpenMenuSettings;
+            MenuSettingsViewModel.OnCloseMenuSettings += CloseMenuSettings;
         }
 
         public void ShowMainMenu()
@@ -27,6 +30,16 @@ namespace StalkerZero
         public void HideMainMenu()
         {
             IsOpenMainMenu.SetValue(null, false);
+        }
+
+        public void OpenMenuSettings()
+        {
+            MenuSettingsViewModel.OpenMenuSettings(this);
+        }
+
+        public void CloseMenuSettings()
+        {
+            MenuPanelViewModel.OpenMenuPanel(this);
         }
     }
 }
